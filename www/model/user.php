@@ -12,11 +12,14 @@ function get_user($db, $user_id){
     FROM
       users
     WHERE
-      user_id = {$user_id}
+      user_id = ?
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  $statement = $db->prepare($sql);
+  $statement->bindValue(1, $user_id, PDO::PARAM_INT);
+
+  return fetch_query($db, $statement);
 }
 
 function get_user_by_name($db, $name){
@@ -29,11 +32,14 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '{$name}'
+      name = ?
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  $statement = $db->prepare($sql);
+  $statement->bindValue(1, $name, PDO::PARAM_INT);
+
+  return fetch_query($db, $statement);
 }
 
 function login_as($db, $name, $password){
