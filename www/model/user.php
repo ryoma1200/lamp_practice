@@ -55,8 +55,8 @@ function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
-  
-  return insert_user($db, $name, $password);
+  $hash = hash_password($password);
+  return insert_user($db, $name, $hash);
 }
 
 function is_admin($user){
@@ -100,11 +100,11 @@ function is_valid_password($password, $password_confirmation){
   return $is_valid;
 }
 
-function insert_user($db, $name, $password){
+function insert_user($db, $name, $hash){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES ('{$name}', '{$hash}');
   ";
 
   return execute_query($db, $sql);

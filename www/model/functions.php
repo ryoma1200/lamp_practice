@@ -140,3 +140,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//ハッシュ化
+function hash_password($password) {
+  return password_hash($password, PASSWORD_DEFAULT);
+}
