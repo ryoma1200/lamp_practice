@@ -14,12 +14,19 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
+$token = get_post("token");
+
 $cart_id = get_post('cart_id');
 
-if(delete_cart($db, $cart_id)){
-  set_message('カートを削除しました。');
+if (is_valid_csrf_token($token)) {
+  if(delete_cart($db, $cart_id)){
+    set_message('カートを削除しました。');
+  } else {
+    set_error('カートの削除に失敗しました。');
+  }
+  delete_csrf_token();
 } else {
-  set_error('カートの削除に失敗しました。');
+  set_error('不正なリクエストです。');
 }
 
 redirect_to(CART_URL);

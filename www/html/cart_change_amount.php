@@ -17,10 +17,18 @@ $user = get_login_user($db);
 $cart_id = get_post('cart_id');
 $amount = get_post('amount');
 
-if(update_cart_amount($db, $cart_id, $amount)){
-  set_message('購入数を更新しました。');
+$token = get_post("token");
+
+if (is_valid_csrf_token($token)) {
+  
+  if(update_cart_amount($db, $cart_id, $amount)){
+    set_message('購入数を更新しました。');
+  } else {
+    set_error('購入数の更新に失敗しました。');
+  }
+  delete_csrf_token();
 } else {
-  set_error('購入数の更新に失敗しました。');
+  set_error('不正なリクエストです。');
 }
 
 redirect_to(CART_URL);
