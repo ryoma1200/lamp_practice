@@ -61,7 +61,6 @@ function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
-  
   return insert_user($db, $name, $password);
 }
 
@@ -110,9 +109,13 @@ function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (?, ?);
   ";
 
-  return execute_query($db, $sql);
+  $statement = $db->prepare($sql);
+  $statement->bindValue(1, $name, PDO::PARAM_INT);
+  $statement->bindValue(2, $password, PDO::PARAM_INT);
+
+  return execute_query($db, $statement);
 }
 
