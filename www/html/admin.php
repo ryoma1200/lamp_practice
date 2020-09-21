@@ -19,4 +19,14 @@ if(is_admin($user) === false){
 }
 
 $items = get_all_items($db);
+
+
+for ($i = 0; $i < count($items); $i++) {           // エンティティ化
+  $items[$i]['name'] = h($items[$i]['name']);
+  $items[$i]['stock'] = h($items[$i]['stock']);
+  $items[$i]['price'] = h($items[$i]['price']);
+  $items[$i]['image'] = h($items[$i]['image']);  
+}
+
+
 include_once VIEW_PATH . '/admin_view.php';
