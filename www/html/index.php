@@ -13,6 +13,8 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
+$token = get_csrf_token();              // トークンの生成 ＆ セッションに格納
+
 $items = get_open_items($db);
 
 for ($i = 0; $i < count($items); $i++) {           // エンティティ化
