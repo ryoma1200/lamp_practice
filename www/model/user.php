@@ -37,7 +37,7 @@ function get_user_by_name($db, $name){
   ";
 
   $statement = $db->prepare($sql);
-  $statement->bindValue(1, $name, PDO::PARAM_INT);
+  $statement->bindValue(1, $name, PDO::PARAM_STR);
 
   return fetch_query($db, $statement);
 }
@@ -114,7 +114,7 @@ function insert_user($db, $name, $password){
 
   $statement = $db->prepare($sql);
   $statement->bindValue(1, $name, PDO::PARAM_INT);
-  $statement->bindValue(2, $password, PDO::PARAM_INT);
+  $statement->bindValue(2, $password, PDO::PARAM_STR);
 
   return execute_query($db, $statement);
 }
