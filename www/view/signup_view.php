@@ -26,6 +26,7 @@
         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
       </div>
       <input type="submit" value="登録" class="btn btn-primary">
+      <input type="hidden" name="token" value="<?php print $token; ?>">
     </form>
   </div>
 </body>
