@@ -123,16 +123,13 @@ function delete_cart($db, $cart_id){
 }
 
 function purchase_carts($db, $carts){
-  if(validate_cart_purchase($carts) === false){
+  if(validate_cart_purchase($carts) === false){         // 購入可能かチェック
     return false;
   }
   foreach($carts as $cart){
-    if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
-        $cart['stock'] - $cart['amount']
-      ) === false){
-      set_error($cart['name'] . 'の購入に失敗しました。');
+    if(update_item_stock($db, $cart['item_id'], $cart['stock'] - $cart['amount']) === false || 
+       insert_order_data($db, $cart['user_id'], $cart['item_id'], $cart['amount'], $cart['price']) === false ){
+        set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
   
