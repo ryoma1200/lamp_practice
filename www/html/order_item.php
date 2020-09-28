@@ -50,6 +50,5 @@ for ($i = 0; $i < count($user_order_items); $i++) {           // エンティテ
   }
 }
 
-var_dump($user_order_items);
 
 include_once VIEW_PATH . 'order_item_view.php';

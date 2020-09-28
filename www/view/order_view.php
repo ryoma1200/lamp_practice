@@ -29,9 +29,9 @@
             <td><?php print $order['create_date'] ?></td>
             <td><?php print $order['price_sum'] ?>円</td>
             <td>
-              <form method="post" action="order_item.php">
+              <form method="post" action="order_item.php#<?php print $order['order_id']; ?>">
                 <input type="submit" name="order_item" value="購入明細表示" class="btn btn-secondary">
-                <input type="hidden" name="order_id" value="<?php print $order['order_id'] ?>">
+                <input type="hidden" name="order_id" value="<?php print $order['order_id']; ?>">
                 <input type="hidden" name="token" value="<?php print $token; ?>">
               </form>
             </td>
