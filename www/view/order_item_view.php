@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
-  <title>カート</title>
+  <title>購入明細</title>
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'cart.css'); ?>">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <?php foreach($user_order_items as $user_order_item) { ?>
-      <div id="#<?php print $user_order_item['order_id']; ?>">
+      <div id="<?php print $user_order_item['order_id']; ?>">
         <p>注文番号：<?php print $user_order_item['order_id']; ?>&emsp; 
         購入日時：<?php print $user_order_item['create_date']; ?>&emsp; 
         お支払い金額：<?php print $user_order_item['price_sum']; ?>円</p>
@@ -39,8 +39,6 @@
         </table>
       </div>
     <?php } ?>
-
-
 </div>
 </body>
 </html>

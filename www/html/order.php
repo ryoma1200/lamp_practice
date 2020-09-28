@@ -17,15 +17,17 @@ $user = get_login_user($db);
 
 $token = get_csrf_token();
 
-$orders = get_user_orders($db, $user['user_id']);
 
-
-for ($i = 0; $i < count($orders); $i++) {           // エンティティ化
-  $orders[$i]['order_id'] = h($orders[$i]['order_id']);
-  $orders[$i]['price_sum'] = h($orders[$i]['price_sum']);
-  $orders[$i]['create_date'] = h($orders[$i]['create_date']);
+if (is_valid_csrf_token($token)) {
+  $orders = get_user_orders($db, $user['user_id']);
 }
 
-var_dump($orders);
+if (isset($orders)) {
+  for ($i = 0; $i < count($orders); $i++) {           // エンティティ化
+    $orders[$i]['order_id'] = h($orders[$i]['order_id']);
+    $orders[$i]['price_sum'] = h($orders[$i]['price_sum']);
+    $orders[$i]['create_date'] = h($orders[$i]['create_date']);
+  }
+}
 
 include_once VIEW_PATH . 'order_view.php';
