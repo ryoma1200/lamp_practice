@@ -2,14 +2,6 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
-function insert_order_data($db, $user_id, $item_id, $amount, $price) {
-  try {
-    $order_id = insert_order($db, $user_id);
-    insert_order_item($db, $order_id, $item_id, $amount, $price);
-  } catch (Exception $e) {
-    return false;
-  }
-}
 
 function insert_order($db, $user_id) {
   $sql = "
