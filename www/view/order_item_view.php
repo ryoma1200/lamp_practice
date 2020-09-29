@@ -7,16 +7,17 @@
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
-  <h1>注文履歴</h1>
+  <h1>購入明細</h1>
   <div class="container">
-
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
-
     <?php foreach($user_order_items as $user_order_item) { ?>
       <div id="<?php print $user_order_item['order_id']; ?>">
-        <p>注文番号：<?php print $user_order_item['order_id']; ?>&emsp; 
-        購入日時：<?php print $user_order_item['create_date']; ?>&emsp; 
-        お支払い金額：<?php print $user_order_item['price_sum']; ?>円</p>
+        <p>
+          注文番号：<?php print $user_order_item['order_id']; ?>&emsp; 
+          <?php if(is_admin($user) === true) { print 'ユーザー：'.$user_order_item['user_id'].'&emsp;'; } ?>
+          購入日時：<?php print $user_order_item['create_date']; ?>&emsp; 
+          お支払い金額：<?php print $user_order_item['price_sum']; ?>円
+        </p>
         <table class="table table-bordered">
           <thead class="thead-light">
             <tr>

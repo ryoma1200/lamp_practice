@@ -19,11 +19,16 @@ $token = get_csrf_token();
 
 
 if (is_valid_csrf_token($token)) {
-  $orders = get_user_orders($db, $user['user_id']);
+  if(is_admin($user) === true){                          // 管理者でログインした場合の処理
+    $orders = get_all_orders($db);                       // 全ユーザーの購入履歴を取得する
+  } else { 
+    $orders = get_user_orders($db, $user['user_id']);    // 特定のユーザーの購入履歴を取得する
+  }
 }
 
-if (isset($orders)) {
-  for ($i = 0; $i < count($orders); $i++) {           // エンティティ化
+if (isset($orders)) { 
+  $orders = array_reverse($orders);                      // $ordersの配列を、注文の新着順にする。
+  for ($i = 0; $i < count($orders); $i++) {              // エンティティ化
     $orders[$i]['order_id'] = h($orders[$i]['order_id']);
     $orders[$i]['price_sum'] = h($orders[$i]['price_sum']);
     $orders[$i]['create_date'] = h($orders[$i]['create_date']);
