@@ -128,6 +128,7 @@ function purchase_carts($db, $carts){
     return false;
   }
 
+  $db->beginTransaction();
   try {
     $order_id = insert_order($db, $carts[0]['user_id']);         // orderテーブルへの追加, order_idの取得
     foreach($carts as $cart){
@@ -137,10 +138,12 @@ function purchase_carts($db, $carts){
       }
     }
     delete_user_carts($db, $carts[0]['user_id']);
-
+    $db->commit();
   } catch (Exception $e) {
+    $db->rollback();
     return false;
   }
+
 } 
 
 function delete_user_carts($db, $user_id){
