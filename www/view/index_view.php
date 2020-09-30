@@ -11,15 +11,13 @@
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
   
-
   <div class="container">
     <h1>商品一覧</h1>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
-
     <select name="sort">
-      <option value="new_arival">新着
-      <option value="lower_price">価格の安い順
-      <option value="higher_price">価格の高い順
+      <option value="1" <?php if($sort === 1){ print 'selected'; } ?>>新着
+      <option value="2" <?php if($sort === 2){ print 'selected'; } ?>>価格の安い順
+      <option value="3" <?php if($sort === 3){ print 'selected'; } ?>>価格の高い順
     </select>
     <div class="card-deck">
       <div class="row">
