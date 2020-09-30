@@ -44,20 +44,18 @@ function get_items($db, $is_open = false, $int = 0){
     ';
   }
 
-  if(isset($int)) {
-    if ($int === 0 || $int === 1) {    // 新着順に並べる
-      $sql .= '
-        ORDER BY created DESC
-      ';
-    } else if ($int === 2) {           // 値段が安い順に並べる
-      $sql .= '
-        ORDER BY price ASC
-      ';
-    } else if ($int === 3) {           // 値段が高い順に並べる
-      $sql .= '
-        ORDER BY price DESC
-      ';
-    }
+  if ($int === 0 || $int === 1) {    // 新着順に並べる
+    $sql .= '
+      ORDER BY created DESC
+    ';
+  } else if ($int === 2) {           // 値段が安い順に並べる
+    $sql .= '
+      ORDER BY price ASC
+    ';
+  } else if ($int === 3) {           // 値段が高い順に並べる
+    $sql .= '
+      ORDER BY price DESC
+    ';
   }
   
   $statement = $db->prepare($sql);
