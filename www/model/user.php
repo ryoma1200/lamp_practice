@@ -61,7 +61,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
-  $hash = hash_password($password);
+  $hash = password_hash($password, PASSWORD_DEFAULT);
   return insert_user($db, $name, $hash);
 }
 

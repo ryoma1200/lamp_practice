@@ -161,9 +161,3 @@ function delete_csrf_token() {
 function clear_session($name) {
   $_SESSION[$name] = '';
 }
-
-
-//ハッシュ化
-function hash_password($password) {
-  return password_hash($password, PASSWORD_DEFAULT);
-}
