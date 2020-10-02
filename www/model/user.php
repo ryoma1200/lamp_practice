@@ -44,7 +44,7 @@ function get_user_by_name($db, $name){
 
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
-  if($user === false || $user['password'] !== $password){
+  if($user === false || password_verify($password, $user['password']) === false){
     return false;
   }
   set_session('user_id', $user['user_id']);
@@ -61,7 +61,8 @@ function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
-  return insert_user($db, $name, $password);
+  $hash = password_hash($password, PASSWORD_DEFAULT);
+  return insert_user($db, $name, $hash);
 }
 
 function is_admin($user){
@@ -105,7 +106,7 @@ function is_valid_password($password, $password_confirmation){
   return $is_valid;
 }
 
-function insert_user($db, $name, $password){
+function insert_user($db, $name, $hash){
   $sql = "
     INSERT INTO
       users(name, password)
@@ -114,7 +115,7 @@ function insert_user($db, $name, $password){
 
   $statement = $db->prepare($sql);
   $statement->bindValue(1, $name, PDO::PARAM_STR);
-  $statement->bindValue(2, $password, PDO::PARAM_STR);
+  $statement->bindValue(2, $hash, PDO::PARAM_STR);
 
   return execute_query($db, $statement);
 }

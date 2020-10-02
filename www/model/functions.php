@@ -141,9 +141,6 @@ function is_valid_upload_image($image){
 
 
 
-
-
-
 function get_csrf_token(){
   $token = get_random_string(30);			  	
   set_session('csrf_token', $token);		 			
