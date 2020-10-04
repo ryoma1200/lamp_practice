@@ -44,3 +44,13 @@ function execute_query($db, $statement/*, $params = array()*/){
   }
   return false;
 }
+
+function execute_order_query($db, $statement/*, $params = array()*/){
+  try{
+    $statement->execute(/*$params*/);
+    return $db->lastInsertId();  
+  }catch(PDOException $e){
+    set_error('更新に失敗しました。');
+  }
+  return false;
+}

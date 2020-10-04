@@ -2,6 +2,43 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+
+function insert_order($db, $user_id) {
+  $sql = "
+     INSERT INTO 
+      `order`(
+          `user_id`
+      ) 
+    VALUES(?)
+    ";
+
+  $statement = $db->prepare($sql);
+  $statement->bindValue(1, $user_id, PDO::PARAM_INT);
+
+  return execute_order_query($db, $statement);
+}
+
+function insert_order_item($db, $order_id, $item_id, $amount, $price) {
+  $sql = "
+    INSERT INTO 
+       `order_item`(
+          `order_id`,
+          `item_id`,
+          `price`,
+          `amount`
+      ) 
+    VALUES(?, ?, ?, ?)
+    ";
+
+  $statement = $db->prepare($sql);
+  $statement->bindValue(1, $order_id, PDO::PARAM_INT);
+  $statement->bindValue(2, $item_id, PDO::PARAM_INT);
+  $statement->bindValue(3, $price, PDO::PARAM_INT);
+  $statement->bindValue(4, $amount, PDO::PARAM_INT);
+
+  return execute_query($db, $statement);
+}
+
 function get_user_orders($db, $user_id){
     $sql = "
         SELECT
@@ -110,3 +147,4 @@ function get_all_order_items($db) {
     
     return fetch_all_query($db, $statement);
 }
+
