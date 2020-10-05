@@ -41,6 +41,11 @@ define('ITEM_NAME_LENGTH_MAX', 100);
 define('ITEM_STATUS_OPEN', 1);
 define('ITEM_STATUS_CLOSE', 0);
 
+define('NUM_ITEMS_PER_PAGE', 3);       // 1ページに表示される商品の個数
+           
+define('PAGE_UP_TYPE_BACK', 1);
+define('PAGE_UP_TYPE_NEXT', 2);
+
 define('PERMITTED_ITEM_STATUSES', array(
   'open' => 1,
   'close' => 0,

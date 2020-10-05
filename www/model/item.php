@@ -25,7 +25,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $statement);
 }
 
-function get_items($db, $is_open = false, $int = 0){
+function get_items($db, $is_open = false, $int = 0, $first_item_number = 0){
   $sql = '
     SELECT
       item_id, 
@@ -57,8 +57,17 @@ function get_items($db, $is_open = false, $int = 0){
       ORDER BY price DESC
     ';
   }
-  
+
+  if ($first_item_number !== 0) {
+    $sql .= 'LIMIT ?, ?';
+  }
+
   $statement = $db->prepare($sql);
+
+  if ($first_item_number !== 0) {
+    $statement->bindValue(1, $first_item_number - 1, PDO::PARAM_INT);
+    $statement->bindValue(2, NUM_ITEMS_PER_PAGE, PDO::PARAM_INT);
+  }
 
   return fetch_all_query($db, $statement);
 }
@@ -67,8 +76,13 @@ function get_all_items($db){
   return get_items($db);
 }
 
-function get_open_items($db, $sort){
-  return get_items($db, true, $sort);
+function get_open_items($db, $sort, $first_item_number){
+  return get_items($db, true, $sort, $first_item_number);
+}
+
+function count_items($db){
+  $items = get_all_items($db);
+  return count($items);
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){
@@ -243,4 +257,9 @@ function is_valid_item_status($status){
     $is_valid = false;
   }
   return $is_valid;
+}
+
+function calc_first_item_number($page_number) {
+    $first_item_number = ($page_number - 1) * NUM_ITEMS_PER_PAGE + 1;
+    return $first_item_number;
 }

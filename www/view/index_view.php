@@ -19,6 +19,32 @@
       <option value="2" <?php if($sort === 2){ print 'selected'; } ?>>価格の安い順
       <option value="3" <?php if($sort === 3){ print 'selected'; } ?>>価格の高い順
     </select>
+
+    <!-- ここから 「xx件中 xx - xx件目の商品」の表示 -->
+    <p>
+      <?php print $item_count; ?>件中
+      <?php print $first_item_number; ?> - 
+      <?php if(($first_item_number + NUM_ITEMS_PER_PAGE) <= $item_count) { 
+              print $first_item_number + NUM_ITEMS_PER_PAGE - 1; 
+            } else if (($first_item_number + NUM_ITEMS_PER_PAGE -1) > $item_count) {
+              print $item_count;
+            }
+      ?>件目の商品
+    </p>
+
+    <!-- ここから ページ番号の表示 -->
+    ページ：
+      <a id="back">前へ</a>
+      <?php 
+      for ($i = 1; $i <= $total_item_pages; $i++) {
+      ?>
+        <a class="page_number" id="page_number_<?php print $i; ?>" value="<?php print $i; ?>"><?php print $i; ?></a>
+      <?php
+      }
+      ?>
+      <a id="next">次へ</a>
+    <input type="hidden" id="current_page" value="<?php print $page_number; ?>">
+
     <div class="card-deck">
       <div class="row">
       <?php foreach($items as $item){ ?>
