@@ -41,7 +41,12 @@ define('ITEM_NAME_LENGTH_MAX', 100);
 define('ITEM_STATUS_OPEN', 1);
 define('ITEM_STATUS_CLOSE', 0);
 
-define('NUM_ITEMS_PER_PAGE', 3);       // 1ページに表示される商品の個数
+define('SORT_TYPE_NONE', 0);           // 並び替えのタイプ 
+define('SORT_TYPE_NEW', 1);            // 並び替え　新着順
+define('SORT_TYPE_PRICE_ASC', 2);      // 並び替え　価格安い順
+define('SORT_TYPE_PRICE_DESC', 3);     // 並び替え　価格高い順
+
+define('NUM_ITEMS_PER_PAGE', 8);       // 1ページに表示される商品の個数
            
 define('PAGE_UP_TYPE_BACK', 1);
 define('PAGE_UP_TYPE_NEXT', 2);

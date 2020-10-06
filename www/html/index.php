@@ -13,47 +13,51 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$token = get_csrf_token();              // トークンの生成 ＆ セッションに格納
+$token = get_csrf_token();                    // トークンの生成 ＆ セッションに格納
 
-if (isset($_POST['sort'])) {            // sortがpostされたときの処理
-  $sort = (int)$_POST['sort'];          // postされたsortをint型にして$sortに代入
+if (isset($_POST['sort_type'])) {             // sort_typeがpostされたときの処理
+  $sort_type = (int)$_POST['sort_type'];      // postされたsort_typeをint型にして$sort_typeに代入
 } else {
-  $sort = 0;                            // 並び替え用の変数
+  $sort_type = 0;                             // 並び替え用の変数
 }
+
 
 // view表示用
-$item_count = count_items($db);
-$total_item_pages = (int)ceil($item_count / NUM_ITEMS_PER_PAGE);
+$last_item_number = calc_last_item_number($db);                            // 最後の商品番号を取得する
+$total_item_pages = (int)ceil($last_item_number / NUM_ITEMS_PER_PAGE);     // ページ数を計算
 
-print '$total_item_pages:'.$total_item_pages.'<br>';
-if (isset($_GET['page_number'])) {
-  $page_number = (int)$_GET['page_number'];   
-  
+//（ここから、遷移するページ番号($page_number)を決める）
 
-} else if (isset($_GET['page_up_type']) && $_GET['current_page']) {
-  $page_up_type = (int)$_GET['page_up_type'];
-  $current_page = (int)$_GET['current_page'];
-  print '$current_page :'.$current_page;
+// 遷移したいページ番号が押されたとき
+if (isset($_GET['page_number'])) {     
+  $page_number = (int)$_GET['page_number'];             // getされたpage_numberを$page_number(遷移先のページ)に代入
 
-  if ($page_up_type === PAGE_UP_TYPE_BACK && $current_page !== 1){
-    $page_number = $current_page - 1;
+// 次へまたは前へが押されたとき
+} else if (isset($_GET['page_up_type']) && $_GET['current_page']) {   
+  $page_up_type = (int)$_GET['page_up_type'];           // getされたページの更新タイプ(次へか前へ)を取得
+  $current_page = (int)$_GET['current_page'];           // getされた現在のページを取得
+
+  // 前へが押されたとき & 1ページ目にいないとき
+  if ($page_up_type === PAGE_UP_TYPE_BACK && $current_page !== 1){  
+    $page_number = $current_page - 1;                   // $page_numberを１減らす
+
+  // 次へが押されたとき & 最後のページにいないとき
   } else if ($page_up_type === PAGE_UP_TYPE_NEXT && $current_page !== $total_item_pages) {
-    $page_number = $current_page + 1;
+    $page_number = $current_page + 1;                   // $page_numberを１増やす
+
   } else {
-    $page_number = $current_page;
-    $first_item_number = calc_first_item_number($page_number);
+    $page_number = $current_page;                       // $current_page(現在のページ)を$page_number(遷移先のページ)        
   }
 
-} else {
-  $page_number = 1;
-  $first_item_number = 1;     // 最初に表示される商品の番号
+// 何もgetされていないときの処理
+} else {    
+  $page_number = 1;             // $page_numberに1を代入（1ページ目を表示)
 }
-$first_item_number = calc_first_item_number($page_number);
-/*確認用
-print '<br>$page_number:'.$page_number.'<br>$first_item_number:'.$first_item_number.'<br><br>';
-*/
 
-$items = get_open_items($db, $sort, $first_item_number);
+
+$first_item_number = calc_first_item_number($page_number);     // 表示される１つ目の商品の番号を取得
+
+$items = get_open_items($db, $sort_type, $first_item_number);       // 表示する商品のデータを取得する
 
 for ($i = 0; $i < count($items); $i++) {           // エンティティ化
   $items[$i]['name'] = h($items[$i]['name']);

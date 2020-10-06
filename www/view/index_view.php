@@ -14,37 +14,38 @@
   <div class="container">
     <h1>商品一覧</h1>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
-    <select name="sort">
-      <option value="1" <?php if($sort === 1){ print 'selected'; } ?>>新着
-      <option value="2" <?php if($sort === 2){ print 'selected'; } ?>>価格の安い順
-      <option value="3" <?php if($sort === 3){ print 'selected'; } ?>>価格の高い順
+    <select name="sort_type">
+      <option value="1" <?php if($sort_type === 1){ print 'selected'; } ?>>新着
+      <option value="2" <?php if($sort_type === 2){ print 'selected'; } ?>>価格の安い順
+      <option value="3" <?php if($sort_type === 3){ print 'selected'; } ?>>価格の高い順
     </select>
 
     <!-- ここから 「xx件中 xx - xx件目の商品」の表示 -->
     <p>
-      <?php print $item_count; ?>件中
+      <?php print $last_item_number; ?>件中
       <?php print $first_item_number; ?> - 
-      <?php if(($first_item_number + NUM_ITEMS_PER_PAGE) <= $item_count) { 
-              print $first_item_number + NUM_ITEMS_PER_PAGE - 1; 
-            } else if (($first_item_number + NUM_ITEMS_PER_PAGE -1) > $item_count) {
-              print $item_count;
+      <?php if(($first_item_number + NUM_ITEMS_PER_PAGE - 1) <= $last_item_number) {           // そのページ最後になりうる商品番号が、最後の商品番号以下か
+              print $first_item_number + NUM_ITEMS_PER_PAGE - 1;                               // そのページ最後の商品番号を表示する
+            } else if (($first_item_number + NUM_ITEMS_PER_PAGE - 1) > $last_item_number) {    // そのページ最後になりうる商品番号が、最後の商品番号より大きいとき
+              print $last_item_number;                                                         // 最後の商品番号を表示する
             }
       ?>件目の商品
     </p>
 
     <!-- ここから ページ番号の表示 -->
     ページ：
-      <a id="back">前へ</a>
+      <a id="back" href="#">前へ</a>
       <?php 
       for ($i = 1; $i <= $total_item_pages; $i++) {
       ?>
-        <a class="page_number" id="page_number_<?php print $i; ?>" value="<?php print $i; ?>"><?php print $i; ?></a>
+        <a href="#" class="page_number" id="page_number_<?php print $i; ?>" value="<?php print $i; ?>"><?php print $i; ?></a>
       <?php
       }
       ?>
-      <a id="next">次へ</a>
+      <a id="next" href="#">次へ</a>
     <input type="hidden" id="current_page" value="<?php print $page_number; ?>">
 
+    <!-- ここから　商品の表示 -->
     <div class="card-deck">
       <div class="row">
       <?php foreach($items as $item){ ?>
