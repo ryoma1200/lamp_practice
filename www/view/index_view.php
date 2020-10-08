@@ -6,7 +6,7 @@
   <title>商品一覧</title>
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'index.css'); ?>">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="sort.js"></script>
+  <script src="sort.js" defer></script>
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
@@ -15,9 +15,9 @@
     <h1>商品一覧</h1>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
     <select name="sort_type">
-      <option value="1" <?php if($sort_type === 1){ print 'selected'; } ?>>新着
-      <option value="2" <?php if($sort_type === 2){ print 'selected'; } ?>>価格の安い順
-      <option value="3" <?php if($sort_type === 3){ print 'selected'; } ?>>価格の高い順
+      <option value="1" <?php if($sort_type === SORT_TYPE_NEW){ print 'selected'; } ?>>新着
+      <option value="2" <?php if($sort_type === SORT_TYPE_PRICE_ASC){ print 'selected'; } ?>>価格の安い順
+      <option value="3" <?php if($sort_type === SORT_TYPE_PRICE_DESC){ print 'selected'; } ?>>価格の高い順
     </select>
 
     <!-- ここから 「xx件中 xx - xx件目の商品」の表示 -->
@@ -34,17 +34,27 @@
 
     <!-- ここから ページ番号の表示 -->
     ページ：
-      <a id="back" href="#">前へ</a>
-      <?php 
-      for ($i = 1; $i <= $total_item_pages; $i++) {
-      ?>
-        <a href="#" class="page_number" id="page_number_<?php print $i; ?>" value="<?php print $i; ?>"><?php print $i; ?></a>
-      <?php
-      }
-      ?>
-      <a id="next" href="#">次へ</a>
-    <input type="hidden" id="current_page" value="<?php print $page_number; ?>">
-
+    <form method="get"> 
+      <input type="submit" name="sub" value="前へ" class="submit_buttom">
+      <input type="hidden" name="pagination_type" value="1">
+      <input type="hidden" name="current_page" value="<?php print $page_number; ?>">
+      <input type="hidden" name="sort_type" value="<?php print $sort_type; ?>">
+      <input type="hidden" name="<?php print $token; ?>">
+    </form>
+    <?php 
+    for ($i = 1; $i <= $last_page; $i++) {
+    ?>
+      <a href="#" class="page_number" id="page_number_<?php print $i; ?>" value="<?php print $i; ?>"><?php print $i; ?></a>
+    <?php
+    }
+    ?>
+    <form method="get"> 
+      <input type="submit" name="sub" value="次へ" class="submit_buttom">
+      <input type="hidden" name="pagination_type" value="2">
+      <input type="hidden" name="current_page" value="<?php print $page_number; ?>">
+      <input type="hidden" name="sort_type" value="<?php print $sort_type; ?>">
+      <input type="hidden" name="<?php print $token; ?>">
+    </form>
     <!-- ここから　商品の表示 -->
     <div class="card-deck">
       <div class="row">
@@ -62,6 +72,7 @@
                   <form action="index_add_cart.php" method="post">
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
                     <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                    <input type="hidden" name="current_page" value="<?php print $page_number; ?>">
                     <input type="hidden" name="token" value="<?php print $token; ?>">
                   </form>
                 <?php } else { ?>

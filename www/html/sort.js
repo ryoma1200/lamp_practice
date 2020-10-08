@@ -1,3 +1,28 @@
+$(function(){
+    // セレクトが変更されたときに行う処理
+    $('select').change(function() {   
+        var sort_type = $('option:selected').val()
+        $.ajax('/index.php',{
+            async: true,
+            type: 'GET',
+            data: {sort_type: sort_type},
+        });
+
+        // Ajaxリクエストが成功したとき
+        .done( (data) => {
+            $("body").html(data); 
+            console.log('success');
+        })
+        // Ajaxリクエストが失敗したとき
+        .fail( (data) => {
+            console.log('Error');
+        })
+
+    });
+});
+
+
+/*
 
 // 並び変え機能　sort_typeのタイプをindex.phpにpostする
 $(function() {
@@ -16,17 +41,20 @@ $(function() {
 
 });
 
+*/
 // ページの番号割り振り　
+
 $(function() {
 
     $('.page_number').on('click', function(){
         var current_page = $('#current_page').val();
         var page_number = $(this).attr('value');
+
         $.get('index.php', {page_number: page_number, current_page: current_page}, function(data, status){
             $('body').html(data);
         });
     });
-
+/*
     $('#back').click(function(){
         var current_page = $('#current_page').val();
         var page_up_type = 1;
@@ -42,6 +70,5 @@ $(function() {
             $('body').html(data);
         });
     });
-
-
+*/
 });

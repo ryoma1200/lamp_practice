@@ -48,8 +48,8 @@ define('SORT_TYPE_PRICE_DESC', 3);     // 並び替え　価格高い順
 
 define('NUM_ITEMS_PER_PAGE', 8);       // 1ページに表示される商品の個数
            
-define('PAGE_UP_TYPE_BACK', 1);
-define('PAGE_UP_TYPE_NEXT', 2);
+define('PAGINATION_TYPE_BACK', 1);
+define('PAGINATION_TYPE_NEXT', 2);
 
 define('PERMITTED_ITEM_STATUSES', array(
   'open' => 1,

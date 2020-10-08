@@ -14,10 +14,9 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-
 $item_id = get_post('item_id');
-
-$token = get_post("token");                         // postされたトークンを取得
+$token = get_post('token');                         // postされたトークンを取得
+$page_number = get_post('current_page');            // 現在のページ番号を取得
 
 if (is_valid_csrf_token($token)) {                  // トークンの照合
   if(add_cart($db,$user['user_id'], $item_id)){
@@ -30,4 +29,5 @@ if (is_valid_csrf_token($token)) {                  // トークンの照合
   set_error('不正なリクエストです。');
 }
 
-redirect_to(HOME_URL);
+$url = HOME_URL.'?page_number='.$page_number;       // クエリストリングで現在のページ番号をindex.phpへ渡す
+redirect_to($url);
