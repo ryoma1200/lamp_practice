@@ -44,15 +44,15 @@ function get_items($db, $is_open = false, $sort_type = 0, $first_item_number = 0
     ';
   }
 
-  if ($sort_type === SORT_TYPE_NONE || $sort_type === SORT_TYPE_NEW) {            // 新着順に並べる
+  if ($sort_type === 0 || $sort_type === 1) {            // 新着順に並べる
     $sql .= '
       ORDER BY created DESC
     ';
-  } else if ($sort_type === SORT_TYPE_PRICE_ASC) {            // 値段が安い順に並べる
+  } else if ($sort_type === 2) {            // 値段が安い順に並べる
     $sql .= '
       ORDER BY price ASC
     ';
-  } else if ($sort_type === SORT_TYPE_PRICE_DESC) {           // 値段が高い順に並べる
+  } else if ($sort_type === 3) {           // 値段が高い順に並べる
     $sql .= '
       ORDER BY price DESC
     ';

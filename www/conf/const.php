@@ -41,7 +41,6 @@ define('ITEM_NAME_LENGTH_MAX', 100);
 define('ITEM_STATUS_OPEN', 1);
 define('ITEM_STATUS_CLOSE', 0);
 
-define('SORT_TYPE_NONE', 0);           // 並び替えのタイプ 
 define('SORT_TYPE_NEW', 1);            // 並び替え　新着順
 define('SORT_TYPE_PRICE_ASC', 2);      // 並び替え　価格安い順
 define('SORT_TYPE_PRICE_DESC', 3);     // 並び替え　価格高い順
