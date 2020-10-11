@@ -2,46 +2,24 @@ $(function(){
     // セレクトが変更されたときに行う処理
     $('select').change(function() {   
         var sort_type = $('option:selected').val()
-        $.ajax('/index.php',{
+        $.ajax('/index_sort.php',{
             async: true,
             type: 'GET',
             data: {sort_type: sort_type},
-        });
-
+        })
         // Ajaxリクエストが成功したとき
-        .done( (data) => {
-            $("body").html(data); 
-            console.log('success');
+        .done((data) => {
+            var json = {"a": data};
+            console.log(json);
+            $('row').html(json);
         })
         // Ajaxリクエストが失敗したとき
-        .fail( (data) => {
-            console.log('Error');
+        .fail((data) => {
+            alert('Error');      
         })
-
     });
 });
 
-
-/*
-
-// 並び変え機能　sort_typeのタイプをindex.phpにpostする
-$(function() {
-
-    // セレクトが変更されたときに行う処理
-    $('select').change(function() {   
-
-        // 選択されているoptionのvalueを取得してsort_typeに代入する
-        var sort_type = $("option:selected").val();
-
-        // index.phpにsort_typeをpostする, 処理に成功したらbodyを書きかえる
-        $.post("index.php", {sort_type: sort_type}, function(data, status){
-            $("body").html(data); 
-        });
-    });
-
-});
-
-*/
 // ページの番号割り振り　
 
 $(function() {

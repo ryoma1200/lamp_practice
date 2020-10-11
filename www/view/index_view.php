@@ -57,8 +57,22 @@
     </form>
     <!-- ここから　商品の表示 -->
     <div class="card-deck">
-      <div class="row">
-      <?php foreach($items as $item){ ?>
+      <div class="row" id="row">
+      <?php 
+
+
+      $json = filter_input(INPUT_GET, 'a');
+      $items = json_decode($json);
+      var_dump($items);
+      //JSON形式データをPHPの配列型に変換
+      //$items = json_decode($json);
+      //var_dump($items);
+      //$items = mb_convert_encoding($items, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
+
+
+
+
+      foreach($items as $item){ ?>
         <div class="col-6 item">
           <div class="card h-100 text-center">
             <div class="card-header">
