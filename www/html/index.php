@@ -22,11 +22,20 @@ if (isset($_POST['sort'])) {            // sortがpostされたときの処理
 
 $items = get_open_items($db, $sort);
 
-
 for ($i = 0; $i < count($items); $i++) {           // エンティティ化
   $items[$i]['name'] = h($items[$i]['name']);
   $items[$i]['stock'] = h($items[$i]['stock']);
   $items[$i]['price'] = h($items[$i]['price']);
+  $items[$i]['image'] = h($items[$i]['image']);  
+}
+
+
+// ランキング機能
+$ranking_items = get_rankingu_items($db);
+
+for ($i = 0; $i < count($ranking_items); $i++) {           // エンティティ化
+  $items[$i]['name'] = h($items[$i]['name']);
+  $items[$i]['total_amount'] = h($items[$i]['total_amount']);
   $items[$i]['image'] = h($items[$i]['image']);  
 }
 

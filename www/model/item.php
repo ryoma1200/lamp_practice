@@ -151,6 +151,31 @@ function update_item_stock($db, $item_id, $stock){
   return execute_query($db, $statement);
 }
 
+function get_rankingu_items($db) {         // order_itemテーブルのamountの合計が多いitemを返す
+  $sql = '
+    SELECT
+      SUM(order_item.amount) AS total_amount,
+      items.item_id, 
+      items.name,
+      items.stock,
+      items.price,
+      items.image,
+      items.status
+    FROM
+      order_item
+    LEFT OUTER JOIN items
+    ON order_item.item_id = items.item_id
+    GROUP BY 
+      items.item_id
+    ORDER BY 
+      total_amount DESC
+    LIMIT 3
+    ';
+
+    $statement = $db->prepare($sql);
+    return fetch_all_query($db, $statement);
+}
+
 function destroy_item($db, $item_id){
   $item = get_item($db, $item_id);
   if($item === false){

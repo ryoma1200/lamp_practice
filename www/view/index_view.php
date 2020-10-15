@@ -46,8 +46,31 @@
         </div>
       <?php } ?>
       </div>
+    </div> 
+    
+    <br>
+    <div>
+      <h1>人気ランキング</h1>
+        <?php for($i = 0; $i < count($ranking_items); $i++){  ?>
+          <h2>第<?php print $i+1; ?>位</h2>
+          <div class="col-6 item">
+            <div class="card h-100 text-center">
+              <div class="card-header">
+                <?php print($ranking_items[$i]['name']); ?>
+              </div>
+              <figure class="card-body">
+                <img class="card-img" src="<?php print(IMAGE_PATH . $ranking_items[$i]['image']); ?>">
+                <figcaption>
+                  <p>売り上げた数</p>
+                  <p><?php print $ranking_items[$i]['total_amount']; ?>個</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        <?php } ?>
     </div>
+    <br>
   </div>
-  
+
 </body>
 </html>
