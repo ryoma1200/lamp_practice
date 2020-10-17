@@ -59,12 +59,24 @@ if (is_valid_csrf_token($token)) {
 
 $first_item_number = calc_first_item_number($page_number);         // 表示される１つ目の商品の番号を取得
 
+
 $items = get_open_items($db, $sort_type, $first_item_number);      // 表示する商品のデータを取得する
+
 
 for ($i = 0; $i < count($items); $i++) {           // エンティティ化
   $items[$i]['name'] = h($items[$i]['name']);
   $items[$i]['stock'] = h($items[$i]['stock']);
   $items[$i]['price'] = h($items[$i]['price']);
+  $items[$i]['image'] = h($items[$i]['image']);  
+}
+
+
+// ランキング機能
+$ranking_items = get_rankingu_items($db);
+
+for ($i = 0; $i < count($ranking_items); $i++) {           // エンティティ化
+  $items[$i]['name'] = h($items[$i]['name']);
+  $items[$i]['total_amount'] = h($items[$i]['total_amount']);
   $items[$i]['image'] = h($items[$i]['image']);  
 }
 
